@@ -3,7 +3,13 @@
 #include <iostream>
 using namespace matoy;
 
-using cp = std::complex<long double>;
+using cp = std::complex<double>;
+
+template <typename Ty>
+Ty rg(const std::function<Ty()> &r)
+{
+    return r();
+}
 
 template <typename Ty>
 void printMat(const Matrix<Ty> &m, const char *comment = nullptr)
@@ -37,5 +43,9 @@ int main()
     auto p2 = qr(cm);
     printMat(p2[0], "Q2 = ");
     printMat(p2[1], "R2 = ");
-    printMat(p2[0] * p2[1] - cm);
+    printMat(p2[0] * p2[1]);
+
+    auto p3 = powit(m);
+    std::cout << p3.first << '\n';
+    printMat(p3.second);
 }

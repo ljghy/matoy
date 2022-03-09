@@ -106,15 +106,16 @@ protected:
 } // namespace matoy
 
 #include <impl/MatrixConstructors.inl>
-#include <impl/MatrixDet.inl>
-#include <impl/MatrixEig.inl>
 #include <impl/MatrixIndex.inl>
-#include <impl/Vector.inl>
 #include <impl/MatrixOperators.inl>
-#include <impl/MatrixPredefined.inl>
-#include <impl/MatrixQR.inl>
-#include <impl/MatrixRREF.inl>
 #include <impl/MatrixRowColOperations.inl>
 #include <impl/MatrixTranspose.inl>
+#include <impl/Vector.inl>
+#include <impl/MatrixPredefined.inl>
+#include <impl/MatrixDet.inl>
+#include <impl/MatrixRREF.inl>
+#include <impl/MatrixQR.inl>
+#include <impl/MatrixEig.inl>
+#include <impl/MatrixSVD.inl>
 
 #endif

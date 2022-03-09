@@ -124,8 +124,7 @@ const Matrix<Ty> Matrix<Ty>::_mul(const Matrix<Ty> &rhs) const
 template <typename Ty>
 const Matrix<Ty> Matrix<Ty>::_div(const Ty &rhs) const
 {
-    assert(rhs != 0);
-    return _mul(1.0 / rhs);
+    return _mul((Ty)1.0 / rhs);
 }
 
 template <typename Ty>
@@ -196,8 +195,7 @@ Matrix<Ty> &Matrix<Ty>::_mulEq(const Ty &rhs)
 template <typename Ty>
 Matrix<Ty> &Matrix<Ty>::_divEq(const Ty &rhs)
 {
-    assert(rhs != 0);
-    return _mulEq(1.0 / rhs);
+    return _mulEq((Ty)1.0 / rhs);
 }
 
 } // namespace matoy

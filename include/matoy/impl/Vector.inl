@@ -45,6 +45,18 @@ inline Matrix<Ty> orthoBasis(index_t dim, index_t axis, const Ty &len = 1.0)
     return ret;
 }
 
+template <typename Ty>
+inline Matrix<Ty> normalized(const Matrix<Ty> &vec)
+{
+    return vec / norm(vec);
+}
+
+template <typename Ty>
+inline void normalize(Matrix<Ty> &vec)
+{
+    vec /= norm(vec);
+}
+
 } // namespace matoy
 
 #endif
