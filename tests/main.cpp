@@ -56,10 +56,9 @@ int main()
     printMat(real(lam));
     printMat(real(ev));
 
-    // Matrix<double> u, s, v;
-    // std::tie(u, s, v) = svd(m({0, 1}, Range::all));
-    // printMat(u, "U =");
-    // printMat(s, "S =");
-    // printMat(v, "V =");
-
+    Matrix<cp> u, s, v;
+    std::tie(u, s, v) = svd(cmplx(m({0, 1}, Range::all)));
+    printMat(u, "U =");
+    printMat(s, "S =");
+    printMat(v, "V =");
 }
