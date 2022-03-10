@@ -69,7 +69,8 @@ const Matrix<Ty> Matrix<Ty>::_getByIndexRange(Range rowRange, Range colRange) co
 template <typename Ty>
 void Matrix<Ty>::_setByIndexRange(Range rowRange, Range colRange, const Matrix<Ty> &m)
 {
-    assert(rowRange.size() == m.row() && colRange.size() == m.col());
+    assert((rowRange == Range::all || rowRange.size() == m.row()) &&
+           (colRange == Range::all || colRange.size() == m.col()));
     copy();
     if (rowRange == Range::all)
         rowRange = Range(0, row() - 1);

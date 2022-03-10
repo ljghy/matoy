@@ -12,7 +12,7 @@ using index_t = uint32_t;
 using index_t = int32_t;
 #endif
 constexpr double DEFAULT_TOL = 1e-14;
-constexpr index_t DEFAULT_ITER_COUNT = 32;
+constexpr index_t DEFAULT_ITER_COUNT = 64;
 
 template <typename Ty>
 inline bool IS_ZERO(const Ty &x) { return std::abs(x) < DEFAULT_TOL; }

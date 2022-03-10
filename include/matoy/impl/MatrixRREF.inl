@@ -59,6 +59,16 @@ inline Matrix<Ty> rref(Matrix<Ty> mat)
     return mat;
 }
 
+template <typename Ty>
+inline Matrix<Ty> inv(const Matrix<Ty> &mat)
+{
+    assert(mat.isSqr());
+    index_t n = mat.row();
+    Matrix<Ty> tmp = rowCat(mat, eye<Ty>(n));
+    tmp = rref(tmp);
+    return tmp(Range::all, {n, n * 2 - 1});
+}
+
 } // namespace matoy
 
 #endif

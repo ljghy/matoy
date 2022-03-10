@@ -1,7 +1,6 @@
 #ifndef MATOY_IMPL_MATRIX_QR_INL_
 #define MATOY_IMPL_MATRIX_QR_INL_
 #include <cstdio>
-#include <utility>
 namespace matoy
 {
 
@@ -13,15 +12,14 @@ inline Matrix<Ty> householder(const Matrix<Ty> &v)
 }
 
 template <typename Ty>
-inline std::array<Matrix<Ty>, 2> qr(const Matrix<Ty> &mat)
+inline std::tuple<Matrix<Ty>, Matrix<Ty>> qr(const Matrix<Ty> &mat)
 {
     index_t row = mat.row(), col = mat.col();
-    Matrix<Ty> I(eye<Ty>(row));
-    Matrix<Ty> Q(I), H(I), R(mat);
+    Matrix<Ty> q(eye<Ty>(row)), r(mat);
 
     for (index_t i = 0; i < std::min(row, col); ++i)
     {
-        Matrix<Ty> x = R(Range(i, row - 1), i);
+        Matrix<Ty> x = r({i, row - 1}, i);
         Matrix<Ty> w = orthoBasis<Ty>(row - i, 0, norm(x));
         if (!IS_ZERO(x(0, 0)))
             w(0, 0) *= x(0, 0) / std::abs(x(0, 0));
@@ -29,13 +27,21 @@ inline std::array<Matrix<Ty>, 2> qr(const Matrix<Ty> &mat)
         auto s1 = sqrNorm(v1), s2 = sqrNorm(v2);
         if (IS_ZERO(std::max(s1, s2)))
             continue;
-        H.setSubmat(Range(i, row - 1), Range(i, row - 1), householder(s1 > s2 ? v1 : v2));
-        Q = Q * H;
-        R = H * R;
-        R.setSubmat(Range(i + 1, row - 1), i, zeros<Ty>(row - i - 1, 1));
-        H = I;
+
+        if (s1 < s2)
+        {
+            w = -w;
+            v1 = v2;
+        }
+        auto h = householder(v1);
+        if (i > 0)
+            q.setSubmat({0, i - 1}, {i, row - 1}, q({0, i - 1}, {i, row - 1}) * h);
+        q.setSubmat({i, row - 1}, {i, row - 1}, q({i, row - 1}, {i, row - 1}) * h);
+
+        r.setSubmat({i, row - 1}, i, w);
+        r.setSubmat({i, row - 1}, {i + 1, col - 1}, h * r({i, row - 1}, {i + 1, col - 1}));
     }
-    return {Q, R};
+    return {q, r};
 }
 
 } // namespace matoy

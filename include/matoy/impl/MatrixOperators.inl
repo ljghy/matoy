@@ -198,5 +198,38 @@ Matrix<Ty> &Matrix<Ty>::_divEq(const Ty &rhs)
     return _mulEq((Ty)1.0 / rhs);
 }
 
+template <typename Ty>
+Matrix<Ty>::operator Ty() const
+{
+    assert(row() == 1 && col() == 1);
+    return (*this)(0, 0);
+}
+
+template <typename Ty>
+inline Matrix<Ty> real(const Matrix<Ty> &mat)
+{
+    return mat;
+}
+
+template <typename Ty>
+inline Matrix<Ty> real(const Matrix<std::complex<Ty>> &mat)
+{
+    Matrix<Ty> ret(mat.row(), mat.col());
+    for (index_t r = 0; r < ret.row(); ++r)
+        for (index_t c = 0; c < ret.col(); ++c)
+            ret(r, c) = std::real(mat(r, c));
+    return ret;
+}
+
+template <typename Ty>
+inline Matrix<std::complex<Ty>> cmplx(const Matrix<Ty> &mat)
+{
+    Matrix<std::complex<Ty>> ret(mat.row(), mat.col());
+    for (index_t r = 0; r < ret.row(); ++r)
+        for (index_t c = 0; c < ret.col(); ++c)
+            ret(r, c) = std::complex<Ty>(mat(r, c), 0.0);
+    return ret;
+}
+
 } // namespace matoy
 #endif

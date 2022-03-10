@@ -8,7 +8,7 @@ template <typename Ty>
 inline Ty sqrNorm(const Matrix<Ty> &vec)
 {
     assert(vec.col() == 1);
-    return (vec.T() * vec).toNum();
+    return vec.T() * vec;
 }
 
 template <typename Ty>
@@ -25,7 +25,7 @@ template <typename Ty>
 inline Ty norm(const Matrix<Ty> &vec)
 {
     assert(vec.col() == 1);
-    return std::sqrt((vec.T() * vec).toNum());
+    return std::sqrt(vec.T() * vec);
 }
 
 template <typename Ty>
@@ -55,6 +55,16 @@ template <typename Ty>
 inline void normalize(Matrix<Ty> &vec)
 {
     vec /= norm(vec);
+}
+
+template <typename Ty>
+inline Matrix<Ty> diag(const Matrix<Ty> &mat)
+{
+    index_t n = std::min(mat.row(), mat.col());
+    Matrix<Ty> ret(n, 1);
+    for (index_t i = 0; i < n; ++i)
+        ret(i, 0) = mat(i, i);
+    return ret;
 }
 
 } // namespace matoy

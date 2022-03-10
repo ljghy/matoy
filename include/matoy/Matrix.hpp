@@ -3,11 +3,11 @@
 
 #include <MatrixBuffer.hpp>
 #include <Range.hpp>
-#include <array>
 #include <cmath>
 #include <initializer_list>
 #include <memory>
 #include <omp.h>
+#include <tuple>
 
 namespace matoy
 {
@@ -43,16 +43,12 @@ public:
     friend Matrix<Ty> operator*(const Ty &lhs, const Matrix<Ty> &m) { return m._mul(lhs); }
     const Matrix<Ty> operator/(const Ty &rhs) const { return _div(rhs); }
 
-    inline Ty toNum() const
-    {
-        assert(row() == 1 && col() == 1);
-        return (*this)(0, 0);
-    }
-
     Matrix<Ty> &operator+=(const Matrix<Ty> &rhs) { return _addEq(rhs); }
     Matrix<Ty> &operator-=(const Matrix<Ty> &rhs) { return _subEq(rhs); }
     Matrix<Ty> &operator*=(const Ty &rhs) { return _mulEq(rhs); }
     Matrix<Ty> &operator/=(const Ty &rhs) { return _divEq(rhs); }
+
+    operator Ty() const;
 
 protected:
     Matrix(index_t r0, index_t r, index_t c0, index_t c, std::shared_ptr<MatrixBuffer<Ty>> b, bool t);
@@ -64,7 +60,7 @@ protected:
     }
 
 public:
-    Matrix(index_t r, index_t c);
+    Matrix(index_t r = 1, index_t c = 1);
     Matrix(const std::initializer_list<const std::initializer_list<Ty>> &elem);
 
     Matrix(const Matrix<Ty> &) = default;
@@ -105,17 +101,30 @@ protected:
 
 } // namespace matoy
 
+//
 #include <impl/MatrixConstructors.inl>
+//
 #include <impl/MatrixIndex.inl>
+//
 #include <impl/MatrixOperators.inl>
+//
 #include <impl/MatrixRowColOperations.inl>
+//
 #include <impl/MatrixTranspose.inl>
-#include <impl/Vector.inl>
+//
 #include <impl/MatrixPredefined.inl>
+//
+#include <impl/Vector.inl>
+//
 #include <impl/MatrixDet.inl>
+//
 #include <impl/MatrixRREF.inl>
+//
 #include <impl/MatrixQR.inl>
+//
 #include <impl/MatrixEig.inl>
+//
 #include <impl/MatrixSVD.inl>
+//
 
 #endif
