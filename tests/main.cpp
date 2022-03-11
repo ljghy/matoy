@@ -46,9 +46,8 @@ int main()
     std::cout << real(lam)
               << real(ev);
 
-    Matrix<double> u, s, v;
-    std::tie(u, s, v) = svd(rand<double>(randnum<double>, 8));
-
+    Matrix<cp> u, s, v;
+    std::tie(u, s, v) = svd(rand<cp>(randnum<cp>, 3, 5));
     std::cout << "U = \n"
               << u;
     std::cout << "S = \n"

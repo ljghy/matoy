@@ -1,6 +1,5 @@
 #ifndef MATOY_IMPL_MATRIX_SVD_INL_
 #define MATOY_IMPL_MATRIX_SVD_INL_
-
 namespace matoy
 {
 
@@ -31,8 +30,16 @@ svd(const Matrix<Ty> &mat, double tol = DEFAULT_TOL, index_t iterCount = DEFAULT
             break;
     }
     Matrix<Ty> s = diag(lamr, row, col);
-    Matrix<Ty> u = (mat * vr)(Range::all, {0, row - 1});
-    for (index_t i = 0; i < row; ++i)
+
+    Matrix<Ty> u;
+    if (row > col)
+    {
+        u = eye<Ty>(row);
+        u.setSubmat(Range::all, {0, col - 1}, (mat * vr)(Range::all, {0, col - 1}));
+    }
+    else
+        u = (mat * vr)(Range::all, {0, row - 1});
+    for (index_t i = 0; i < std::min(row, lamr.row()); ++i)
         if (!IS_ZERO(lamr(i, 0)))
             u.mulCol(i, (Ty)1.0 / lamr(i, 0));
     return {u, s, vr};
@@ -65,8 +72,17 @@ svd(const Matrix<std::complex<Ty>> &mat, double tol = DEFAULT_TOL, index_t iterC
             break;
     }
     Matrix<std::complex<Ty>> s = diag(cmplx(lamr), row, col);
-    Matrix<std::complex<Ty>> u = (mat * v)(Range::all, {0, row - 1});
-    for (index_t i = 0; i < row; ++i)
+    Matrix<std::complex<Ty>> u;
+
+    if (row > col)
+    {
+        u = eye<std::complex<Ty>>(row);
+        u.setSubmat(Range::all, {0, col - 1}, (mat * v)(Range::all, {0, col - 1}));
+    }
+    else
+        u = (mat * v)(Range::all, {0, row - 1});
+
+    for (index_t i = 0; i < std::min(row, lamr.row()); ++i)
         if (!IS_ZERO(lamr(i, 0)))
             u.mulCol(i, std::complex<Ty>((Ty)1.0 / lamr(i, 0)));
     return {u, s, v};
