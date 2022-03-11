@@ -108,6 +108,8 @@ protected:
 //
 #include <impl/MatrixOperators.inl>
 //
+#include <impl/MatrixIO.inl>
+//
 #include <impl/MatrixRowColOperations.inl>
 //
 #include <impl/MatrixTranspose.inl>

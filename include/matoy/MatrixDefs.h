@@ -14,6 +14,9 @@ using index_t = int32_t;
 constexpr double DEFAULT_TOL = 1e-14;
 constexpr index_t DEFAULT_ITER_COUNT = 64;
 
+constexpr unsigned OUTPUT_PRECISION = 4;
+constexpr unsigned OUTPUT_WIDTH = 10;
+
 template <typename Ty>
 inline bool IS_ZERO(const Ty &x) { return std::abs(x) < DEFAULT_TOL; }
 
